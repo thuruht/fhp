@@ -28,7 +28,7 @@
 	font-size: 24.14pt;
 	line-height: 25pt;
 	letter-spacing: -0.05em;
-	padding-top: 2rem;
+	padding-top: 1rem;
 }
 
 .bg-video {
@@ -48,7 +48,7 @@
 	z-index: 1;
 	color: #e8eef2FF;
 	text-align: center;
-	padding: 2rem 1rem 6rem;
+	padding: 1rem 1rem 6rem;
 	text-shadow: 0 0 20px #221d22E6, 0 0 40px #221d22B3;
 	backdrop-filter: blur(2px);
 	max-width: 100%;
@@ -58,7 +58,7 @@
 .logo {
 	max-width: 90vw;
 	width: 500px;
-	margin-bottom: 2rem;
+	margin-bottom: 1rem;
 	filter: drop-shadow(0 0 20px #221d22E6) drop-shadow(0 0 40px #d75600CC);
 	animation: ember-glow 3s ease-in-out infinite;
 }
@@ -71,7 +71,7 @@
 .body {
 	max-width: 90vw;
 	width: 600px;
-	margin: 0 auto 2rem;
+	margin: 0 auto 1.5rem;
 	font-size: 1rem;
 	text-transform: lowercase;
 }
@@ -349,7 +349,7 @@ button:hover {
 	}
 	
 	.logo {
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.75rem;
 	}
 	
 	.page-logo {
@@ -357,11 +357,11 @@ button:hover {
 	}
 	
 	.overlay {
-		padding: 2rem 0.5rem 6rem;
+		padding: 1rem 0.5rem 6rem;
 	}
 	
 	.body {
-		margin-bottom: 1rem;
+		margin-bottom: 0.75rem;
 	}
 	
 	.ticker-header {
