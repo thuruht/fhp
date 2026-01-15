@@ -8,6 +8,8 @@ function App() {
   const [page, setPage] = useState("home");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [announcements, setAnnouncements] = useState<any[]>([]);
+  const [videos, setVideos] = useState<any[]>([]);
+  const [stills, setStills] = useState<any[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
 
@@ -17,6 +19,14 @@ function App() {
       .then(data => setAnnouncements(data.slice(0, 3)))
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (page === 'videos') {
+      fetch('/api/videos').then(res => res.json()).then(setVideos).catch(() => {});
+    } else if (page === 'stills') {
+      fetch('/api/stills').then(res => res.json()).then(setStills).catch(() => {});
+    }
+  }, [page]);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -111,9 +121,11 @@ function App() {
             </nav>
             {announcements.length > 0 && (
               <div className="announcements-ticker">
+                <h3 className="ticker-header">LATEST</h3>
                 {announcements.map((a: any) => (
                   <div key={a.id} className="announcement-item">
                     <span className="announcement-title">{a.title}</span>
+                    <div className="announcement-content" dangerouslySetInnerHTML={{ __html: a.content }} />
                   </div>
                 ))}
               </div>
@@ -126,8 +138,20 @@ function App() {
       {page === "videos" && (
         <div className="page">
           <img src="/logo.png" alt="Flaming Heart Productions" className="page-logo" />
-          <h1>VIDEO EXAMPLES</h1>
-          <div className="content">video examples will go here</div>
+          <h1>VIDEOS</h1>
+          <div className="content">
+            {videos.length === 0 ? 'no videos yet' : (
+              <div className="media-grid">
+                {videos.map((v: any) => (
+                  <div key={v.id} className="media-item">
+                    <video src={v.mediaUrl} controls poster={v.thumbnailUrl} />
+                    <h3>{v.title}</h3>
+                    <p>{v.description}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           <button onClick={() => setPage("home")}>BACK</button>
         </div>
       )}
@@ -136,7 +160,19 @@ function App() {
         <div className="page">
           <img src="/logo.png" alt="Flaming Heart Productions" className="page-logo" />
           <h1>STILLS</h1>
-          <div className="content">stills will go here</div>
+          <div className="content">
+            {stills.length === 0 ? 'no stills yet' : (
+              <div className="media-grid">
+                {stills.map((s: any) => (
+                  <div key={s.id} className="media-item">
+                    <img src={s.mediaUrl} alt={s.title} />
+                    <h3>{s.title}</h3>
+                    <p>{s.description}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           <button onClick={() => setPage("home")}>BACK</button>
         </div>
       )}

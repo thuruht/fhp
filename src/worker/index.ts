@@ -40,9 +40,13 @@ app.post("/api/auth/logout", (c) => {
   return c.json({ success: true });
 });
 
-app.post("/api/upload", async (c) => {
+app.post("/api/upload", authMiddleware, async (c) => {
   const formData = await c.req.formData();
   const file = formData.get("file") as File;
+  
+  if (!file || file.size > 25 * 1024 * 1024) {
+    return c.json({ error: "File too large or missing" }, 400);
+  }
   
   const key = `${Date.now()}-${file.name}`;
   await c.env.MEDIA_BUCKET.put(key, file.stream());
@@ -161,6 +165,10 @@ app.post("/api/about", authMiddleware, async (c) => {
 app.post("/api/bgvideo", authMiddleware, async (c) => {
   const formData = await c.req.formData();
   const file = formData.get("file") as File;
+  
+  if (!file || file.size > 100 * 1024 * 1024) {
+    return c.json({ error: "File too large or missing" }, 400);
+  }
   
   await c.env.MEDIA_BUCKET.put("bg.mp4", file.stream());
   

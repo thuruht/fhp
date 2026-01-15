@@ -160,12 +160,12 @@ button:hover {
 
 .footer-icon {
 	position: fixed;
-	bottom: 1.5rem;
-	right: 1.5rem;
-	width: 60px;
-	height: 60px;
+	bottom: 0.75rem;
+	right: 0.75rem;
+	width: 50px;
+	height: 50px;
 	z-index: 100;
-	opacity: 0.8;
+	opacity: 0.7;
 	filter: drop-shadow(0 0 4px #221d22FF) drop-shadow(0 0 10px #d7560080);
 	animation: cinder-idle 4s ease-in-out infinite;
 }
@@ -177,8 +177,8 @@ button:hover {
 
 .video-controls {
 	position: fixed;
-	bottom: 1.5rem;
-	left: 1.5rem;
+	bottom: 0.75rem;
+	left: 0.75rem;
 	z-index: 100;
 	display: flex;
 	gap: 0.5rem;
@@ -188,14 +188,14 @@ button:hover {
 	background: #221d22B3;
 	color: #e8eef2FF;
 	border: 1px solid #a8dcffFF;
-	width: 40px;
-	height: 40px;
+	width: 36px;
+	height: 36px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
-	font-size: 1.2rem;
-	opacity: 0.6;
+	font-size: 1rem;
+	opacity: 0.5;
 	transition: opacity 0.3s, box-shadow 0.3s, text-shadow 0.3s;
 	text-decoration: none;
 	text-shadow: 0 0 4px #221d22FF, 0 0 8px #221d22FF;
@@ -210,14 +210,14 @@ button:hover {
 
 .admin-link {
 	position: fixed;
-	top: 1rem;
-	right: 1rem;
+	top: 0.75rem;
+	right: 0.75rem;
 	z-index: 100;
-	width: 32px;
-	height: 32px;
+	width: 28px;
+	height: 28px;
 	padding: 0;
-	font-size: 1rem;
-	opacity: 0.3;
+	font-size: 0.9rem;
+	opacity: 0.25;
 	border: 1px solid #a8dcffFF;
 	background: #221d2280;
 	transition: opacity 0.3s, box-shadow 0.3s, text-shadow 0.3s;
@@ -245,22 +245,67 @@ button:hover {
 	}
 }
 
+.media-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 2rem;
+	margin-top: 2rem;
+}
+
+.media-item {
+	text-align: center;
+}
+
+.media-item video,
+.media-item img {
+	width: 100%;
+	height: auto;
+	border: 2px solid #a8dcffFF;
+	margin-bottom: 1rem;
+}
+
+.media-item h3 {
+	text-transform: uppercase;
+	color: #d75600FF;
+	font-size: 1.2rem;
+	margin: 0.5rem 0;
+}
+
+.media-item p {
+	text-transform: lowercase;
+	color: #e8eef2FF;
+}
+
 .announcements-ticker {
 	margin-top: 2rem;
 	padding: 1rem;
 	background: #221d2280;
 	border: 1px solid #d75600FF;
 	max-width: 90vw;
-	width: 500px;
+	width: 100%;
+	max-width: 500px;
 	margin-left: auto;
 	margin-right: auto;
+	box-sizing: border-box;
+	max-height: 400px;
+	overflow-y: auto;
+}
+
+.ticker-header {
+	color: #d75600FF;
+	text-transform: uppercase;
+	font-size: 0.9rem;
+	margin: 0 0 1rem 0;
+	text-align: center;
 }
 
 .announcement-item {
-	padding: 0.5rem 0;
+	padding: 0.75rem 0;
 	text-transform: lowercase;
-	font-size: 0.9rem;
+	font-size: 0.85rem;
 	border-bottom: 1px solid #d7560040;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 .announcement-item:last-child {
@@ -270,4 +315,55 @@ button:hover {
 .announcement-title {
 	color: #d75600FF;
 	font-weight: bold;
+	display: block;
+	margin-bottom: 0.5rem;
+	word-wrap: break-word;
+}
+
+.announcement-content {
+	color: #e8eef2FF;
+	line-height: 1.4;
+	word-wrap: break-word;
+}
+
+.announcement-content p {
+	margin: 0.5rem 0;
+}
+
+.announcement-content img {
+	max-width: 100%;
+	height: auto;
+}
+
+@media (max-width: 640px) {
+	.announcements-ticker {
+		max-height: 300px;
+		font-size: 0.8rem;
+		padding: 0.5rem;
+	}
+	
+	.announcement-item {
+		font-size: 0.8rem;
+		padding: 0.5rem 0;
+	}
+	
+	.logo {
+		margin-bottom: 0.5rem;
+	}
+	
+	.page-logo {
+		margin-bottom: 0.75rem;
+	}
+	
+	.overlay {
+		padding: 2rem 0.5rem 6rem;
+	}
+	
+	.body {
+		margin-bottom: 1rem;
+	}
+	
+	.ticker-header {
+		margin-bottom: 0.5rem;
+	}
 }
