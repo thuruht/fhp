@@ -1,66 +1,165 @@
-// src/App.tsx
-
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import cloudflareLogo from "./assets/Cloudflare_Logo.svg";
-import honoLogo from "./assets/hono.svg";
 import "./App.css";
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
+import Admin from "./Admin";
+import Login from "./Login";
 
 function App() {
-	const [count, setCount] = useState(0);
-	const [name, setName] = useState("unknown");
+  const [page, setPage] = useState("home");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [announcements, setAnnouncements] = useState<any[]>([]);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
 
-	return (
-		<>
-			<div>
-				<a href="https://vite.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
-				<a href="https://hono.dev/" target="_blank">
-					<img src={honoLogo} className="logo cloudflare" alt="Hono logo" />
-				</a>
-				<a href="https://workers.cloudflare.com/" target="_blank">
-					<img
-						src={cloudflareLogo}
-						className="logo cloudflare"
-						alt="Cloudflare logo"
-					/>
-				</a>
-			</div>
-			<h1>Vite + React + Hono + Cloudflare</h1>
-			<div className="card">
-				<button
-					onClick={() => setCount((count) => count + 1)}
-					aria-label="increment"
-				>
-					count is {count}
-				</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<div className="card">
-				<button
-					onClick={() => {
-						fetch("/api/")
-							.then((res) => res.json() as Promise<{ name: string }>)
-							.then((data) => setName(data.name));
-					}}
-					aria-label="get name"
-				>
-					Name from API is: {name}
-				</button>
-				<p>
-					Edit <code>worker/index.ts</code> to change the name
-				</p>
-			</div>
-			<p className="read-the-docs">Click on the logos to learn more</p>
-		</>
-	);
+  useEffect(() => {
+    fetch('/api/announcements')
+      .then(res => res.json())
+      .then(data => setAnnouncements(data.slice(0, 3)))
+      .catch(() => {});
+  }, []);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const iconRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (iconRef.current) {
+      gsap.to(iconRef.current, {
+        rotation: 360,
+        duration: 20,
+        repeat: -1,
+        ease: "none"
+      });
+      gsap.to(iconRef.current, {
+        scale: 1.1,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut"
+      });
+      gsap.to(iconRef.current, {
+        x: -20,
+        y: -20,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+    }
+  }, []);
+
+  const handleIconHover = () => {
+    if (iconRef.current) {
+      gsap.to(iconRef.current, {
+        rotation: "+=720",
+        scale: 1.3,
+        duration: 0.6,
+        ease: "elastic.out(1, 0.3)"
+      });
+    }
+  };
+
+  const handleIconLeave = () => {
+    if (iconRef.current) {
+      gsap.to(iconRef.current, {
+        scale: 1,
+        duration: 0.4,
+        ease: "power2.out"
+      });
+    }
+  };
+
+  if (page === "admin" && !isAuthenticated) {
+    return <Login onLogin={() => setIsAuthenticated(true)} onCancel={() => setPage("home")} />;
+  }
+
+  if (page === "admin") {
+    return <Admin onBack={() => { setPage("home"); setIsAuthenticated(false); }} />;
+  }
+
+  return (
+    <div className="site-root">
+      {page === "home" && (
+        <>
+          <video ref={videoRef} className="bg-video" autoPlay muted loop playsInline>
+            <source src="/media/bg.mp4" type="video/mp4" />
+          </video>
+          <div className="video-controls">
+            <button onClick={togglePlay} className="control-btn" title={isPlaying ? "Pause" : "Play"}>
+              {isPlaying ? "❚❚" : "▶"}
+            </button>
+            <a href="#reel-info" className="control-btn" title="About this reel">
+              ⓘ
+            </a>
+          </div>
+          <div className="overlay">
+            <img src="/horizontal_logo.png" alt="Flaming Heart Productions" className="logo" />
+            <p className="body">single-origin cold brew meets hand-crafted 16mm film grain. we curate immersive visual experiences for brands who bicycle commute to farmer's markets. <a href="#portfolio">peep the aesthetic</a> before it was cool.</p>
+            <nav>
+              <button onClick={() => setPage("videos")}>VIDEOS</button>
+              <button onClick={() => setPage("stills")}>STILLS</button>
+              <button onClick={() => setPage("contact")}>CONTACT</button>
+            </nav>
+            {announcements.length > 0 && (
+              <div className="announcements-ticker">
+                {announcements.map((a: any) => (
+                  <div key={a.id} className="announcement-item">
+                    <span className="announcement-title">{a.title}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <button onClick={() => setPage("admin")} className="admin-link" title="Admin">⚙</button>
+        </>
+      )}
+
+      {page === "videos" && (
+        <div className="page">
+          <img src="/logo.png" alt="Flaming Heart Productions" className="page-logo" />
+          <h1>VIDEO EXAMPLES</h1>
+          <div className="content">video examples will go here</div>
+          <button onClick={() => setPage("home")}>BACK</button>
+        </div>
+      )}
+
+      {page === "stills" && (
+        <div className="page">
+          <img src="/logo.png" alt="Flaming Heart Productions" className="page-logo" />
+          <h1>STILLS</h1>
+          <div className="content">stills will go here</div>
+          <button onClick={() => setPage("home")}>BACK</button>
+        </div>
+      )}
+
+      {page === "contact" && (
+        <div className="page">
+          <img src="/logo.png" alt="Flaming Heart Productions" className="page-logo" />
+          <h1>CONTACT</h1>
+          <div className="content">contact information will go here</div>
+          <button onClick={() => setPage("home")}>BACK</button>
+        </div>
+      )}
+
+      <img 
+        ref={iconRef}
+        src="/icon.png" 
+        alt="" 
+        className="footer-icon"
+        onMouseEnter={handleIconHover}
+        onMouseLeave={handleIconLeave}
+      />
+    </div>
+  );
 }
 
 export default App;

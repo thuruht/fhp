@@ -1,0 +1,44 @@
+.editor-wrapper {
+  border: 2px solid #a8dcffFF;
+  border-radius: 4px;
+  background: #221d2280;
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid #a8dcffFF;
+}
+
+.editor-toolbar button,
+.upload-btn {
+  background: #a8dcffFF;
+  color: #221d22FF;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-family: 'Daisy', sans-serif;
+  transition: all 0.3s;
+}
+
+.editor-toolbar button:hover,
+.upload-btn:hover {
+  background: #e8eef2FF;
+  box-shadow: 0 0 15px #d7560080;
+}
+
+.editor-content {
+  padding: 1rem;
+  min-height: 200px;
+  color: #e8eef2FF;
+}
+
+.editor-content .ProseMirror {
+  outline: none;
+}
+
+.editor-content img {
+  max-width: 100%;
+  height: auto;
+}
