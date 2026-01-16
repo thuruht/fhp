@@ -59,6 +59,9 @@
   font-family: 'Daisy', sans-serif;
   text-transform: lowercase;
   transition: border-color 0.3s, box-shadow 0.3s;
+  font-size: 1rem;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .admin-form input:focus,
@@ -78,6 +81,13 @@
   background: #a8dcffFF;
   color: #221d22FF;
   font-family: 'Daisy', sans-serif;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .back-btn {
+    width: auto;
+  }
 }
 
 .items-list {

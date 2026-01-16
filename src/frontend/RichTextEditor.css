@@ -2,6 +2,8 @@
   border: 2px solid #a8dcffFF;
   border-radius: 4px;
   background: #221d2280;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .editor-toolbar {
@@ -9,6 +11,7 @@
   gap: 0.5rem;
   padding: 0.5rem;
   border-bottom: 1px solid #a8dcffFF;
+  flex-wrap: wrap;
 }
 
 .editor-toolbar button,
@@ -20,6 +23,7 @@
   cursor: pointer;
   font-family: 'Daisy', sans-serif;
   transition: all 0.3s;
+  font-size: 0.9rem;
 }
 
 .editor-toolbar button:hover,
@@ -29,9 +33,10 @@
 }
 
 .editor-content {
-  padding: 1rem;
-  min-height: 200px;
+  padding: 0.75rem;
+  min-height: 150px;
   color: #e8eef2FF;
+  font-size: 0.9rem;
 }
 
 .editor-content .ProseMirror {
@@ -41,4 +46,12 @@
 .editor-content img {
   max-width: 100%;
   height: auto;
+}
+
+@media (min-width: 640px) {
+  .editor-content {
+    padding: 1rem;
+    min-height: 200px;
+    font-size: 1rem;
+  }
 }

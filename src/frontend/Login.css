@@ -1,9 +1,10 @@
 .login-container {
   width: 100%;
   max-width: 400px;
-  padding: 3rem 2rem;
+  padding: 3rem 1rem;
   color: #e8eef2FF;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .login-logo {
@@ -27,6 +28,8 @@
   font-family: 'Daisy', sans-serif;
   text-transform: lowercase;
   transition: border-color 0.3s, box-shadow 0.3s;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 .login-form input:focus {
@@ -48,8 +51,19 @@
 .login-actions {
   display: flex;
   gap: 1rem;
+  flex-direction: column;
 }
 
 .login-actions button {
   flex: 1;
+}
+
+@media (min-width: 640px) {
+  .login-container {
+    padding: 3rem 2rem;
+  }
+  
+  .login-actions {
+    flex-direction: row;
+  }
 }
