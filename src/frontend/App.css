@@ -106,12 +106,52 @@ h1 {
 }
 
 nav {
-	display: flex;
-	flex-direction: column;
-	gap: 0.75rem;
-	max-width: 90vw;
-	width: 300px;
+	position: relative;
 	margin: 0 auto 4rem;
+	width: fit-content;
+}
+
+.menu-toggle {
+	background: transparent;
+	color: #e8eef2FF;
+	border: 2px solid #a8dcffFF;
+	padding: 0.75rem 1.5rem;
+	font-size: 1.5rem;
+	cursor: pointer;
+	font-family: 'Daisy', sans-serif;
+	transition: all 0.3s;
+	min-width: 120px;
+}
+
+.menu-toggle:hover {
+	background: #a8dcffFF;
+	border-color: #a8dcffFF;
+	color: #221d22FF;
+	box-shadow: 0 0 20px #a8dcff80;
+}
+
+.nav-menu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	margin-top: 0.5rem;
+	background: #221d22E6;
+	border: 2px solid #a8dcffFF;
+	backdrop-filter: blur(10px);
+	z-index: 10;
+}
+
+.nav-menu button {
+	width: 100%;
+	text-align: center;
+	border: none;
+	border-bottom: 1px solid #a8dcff40;
+	border-radius: 0;
+}
+
+.nav-menu button:last-child {
+	border-bottom: none;
 }
 
 button {
@@ -234,12 +274,6 @@ button:hover {
 }
 
 @media (min-width: 640px) {
-	nav {
-		flex-direction: row;
-		justify-content: center;
-		width: auto;
-	}
-	
 	button {
 		font-size: 1rem;
 		padding: 0.75rem 1.5rem;

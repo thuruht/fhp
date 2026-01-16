@@ -96,15 +96,36 @@ export function renderHome() {
     overlay.appendChild(body);
 
     const nav = document.createElement('nav');
+    
+    const menuBtn = document.createElement('button');
+    menuBtn.className = 'menu-toggle';
+    menuBtn.textContent = '☰';
+    menuBtn.title = 'Menu';
+    
+    const menu = document.createElement('div');
+    menu.className = 'nav-menu';
+    menu.style.display = 'none';
+    
     const createNavBtn = (text: string, page: any) => {
         const btn = document.createElement('button');
         btn.textContent = text;
-        btn.onclick = () => setState({ page });
+        btn.onclick = () => {
+            setState({ page });
+            menu.style.display = 'none';
+        };
         return btn;
     };
-    nav.appendChild(createNavBtn('VIDEOS', 'videos'));
-    nav.appendChild(createNavBtn('STILLS', 'stills'));
-    nav.appendChild(createNavBtn('CONTACT', 'contact'));
+    
+    menu.appendChild(createNavBtn('VIDEOS', 'videos'));
+    menu.appendChild(createNavBtn('STILLS', 'stills'));
+    menu.appendChild(createNavBtn('CONTACT', 'contact'));
+    
+    menuBtn.onclick = () => {
+        menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    };
+    
+    nav.appendChild(menuBtn);
+    nav.appendChild(menu);
     overlay.appendChild(nav);
 
     // Announcements Ticker
