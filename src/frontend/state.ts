@@ -1,5 +1,3 @@
-// src/frontend/state.ts
-
 type Page = 'home' | 'videos' | 'stills' | 'contact' | 'admin' | 'login';
 
 export interface AppState {

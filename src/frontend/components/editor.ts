@@ -73,13 +73,9 @@ export function createRichTextEditor(initialContent: string, onChange: (content:
     return {
         element: wrapper,
         setHTML: (html: string) => {
-            // If quill is initialized, set it, otherwise wait or ignore (race condition mostly covered by usage)
             if (quill) {
                 quill.root.innerHTML = html;
             } else {
-                // If setHTML is called before init, we update the initialContent closure variable?
-                // Or just retry. Since initialContent is used in the timeout, we should rely on it there.
-                // But for reset purposes, the timeout has likely run.
                  const check = setInterval(() => {
                      if (quill) {
                          quill.root.innerHTML = html;

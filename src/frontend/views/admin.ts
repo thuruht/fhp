@@ -65,8 +65,9 @@ export function renderAdmin() {
 
     const backBtn = document.createElement('button');
     backBtn.className = 'back-btn';
-    backBtn.textContent = 'BACK TO SITE';
-    backBtn.onclick = () => {
+    backBtn.textContent = 'LOGOUT & BACK';
+    backBtn.onclick = async () => {
+        await fetch('/api/auth/logout', { method: 'POST' });
         setState({ page: 'home', isAuthenticated: false });
     };
     container.appendChild(backBtn);

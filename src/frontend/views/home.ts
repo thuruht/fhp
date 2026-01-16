@@ -11,10 +11,17 @@ export function renderHome() {
     video.muted = true;
     video.loop = true;
     video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
     const source = document.createElement('source');
     source.src = '/media/bg.mp4';
     source.type = 'video/mp4';
     video.appendChild(source);
+    
+    video.addEventListener('loadeddata', () => {
+        video.play().catch(() => {});
+    });
+    
     container.appendChild(video);
 
     // Video Controls

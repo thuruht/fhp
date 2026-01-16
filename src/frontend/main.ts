@@ -13,33 +13,19 @@ import { renderAdmin } from './views/admin';
 
 const app = document.getElementById('app')!;
 
-// Persistent Layout Setup
 const container = document.createElement('div');
 container.className = 'site-root';
 app.appendChild(container);
 
-// Content Area
 const contentArea = document.createElement('div');
 contentArea.style.width = '100%';
-// The views might already return a .site-root or .page structure.
-// However, the original App.tsx had .site-root wrapping everything.
-// Let's check App.tsx behavior again.
-// It had <div className="site-root"> {pageContent} <img icon /> </div>
-// My view functions (renderHome, renderMedia) currently return a .site-root div themselves.
-// I should adjust them or adjust the main structure.
-// If renderHome returns .site-root, nesting it in another .site-root might be weird but CSS dependent.
-// `App.css` .site-root has fixed position and 100vw/vh.
-// So I should probably REMOVE .site-root from the view functions and have it here.
-
 container.appendChild(contentArea);
 
-// Persistent Icon
 const icon = document.createElement('img');
 icon.src = '/icon.png';
 icon.className = 'footer-icon';
 container.appendChild(icon);
 
-// GSAP Animations for Icon
 gsap.to(icon, {
     rotation: 360,
     duration: 20,
@@ -80,7 +66,7 @@ icon.addEventListener('mouseleave', () => {
 
 function render() {
     const state = getState();
-    contentArea.innerHTML = ''; // Clear only the content area
+    contentArea.innerHTML = '';
 
     let pageContent: HTMLElement;
 
@@ -117,11 +103,8 @@ function render() {
     contentArea.appendChild(pageContent);
 }
 
-// Initial Render
 render();
 
-// Subscribe to state changes
 subscribe(render);
 
-// Expose setState for debugging
 (window as any).setState = setState;
