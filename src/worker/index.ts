@@ -49,7 +49,11 @@ app.post("/api/upload", authMiddleware, async (c) => {
   }
   
   const key = `${Date.now()}-${file.name}`;
-  await c.env.MEDIA_BUCKET.put(key, file.stream());
+  await c.env.MEDIA_BUCKET.put(key, file.stream(), {
+    httpMetadata: {
+      contentType: file.type || "application/octet-stream"
+    }
+  });
   
   return c.json({ url: `/media/${key}` });
 });
@@ -69,12 +73,20 @@ app.post("/api/videos", authMiddleware, async (c) => {
   const thumbnail = formData.get("thumbnail") as File;
   
   const mediaKey = `${Date.now()}-${file.name}`;
-  await c.env.MEDIA_BUCKET.put(mediaKey, file.stream());
+  await c.env.MEDIA_BUCKET.put(mediaKey, file.stream(), {
+    httpMetadata: {
+      contentType: file.type || "video/mp4"
+    }
+  });
   
   let thumbnailUrl = null;
   if (thumbnail) {
     const thumbKey = `${Date.now()}-${thumbnail.name}`;
-    await c.env.MEDIA_BUCKET.put(thumbKey, thumbnail.stream());
+    await c.env.MEDIA_BUCKET.put(thumbKey, thumbnail.stream(), {
+      httpMetadata: {
+        contentType: thumbnail.type || "image/jpeg"
+      }
+    });
     thumbnailUrl = `/media/${thumbKey}`;
   }
   
@@ -109,7 +121,11 @@ app.post("/api/stills", authMiddleware, async (c) => {
   const file = formData.get("file") as File;
   
   const mediaKey = `${Date.now()}-${file.name}`;
-  await c.env.MEDIA_BUCKET.put(mediaKey, file.stream());
+  await c.env.MEDIA_BUCKET.put(mediaKey, file.stream(), {
+    httpMetadata: {
+      contentType: file.type || "image/jpeg"
+    }
+  });
   
   await c.env.DB.prepare(
     "INSERT INTO media (title, description, mediaUrl, type) VALUES (?, ?, ?, 'still')"
@@ -170,9 +186,32 @@ app.post("/api/bgvideo", authMiddleware, async (c) => {
     return c.json({ error: "File too large or missing" }, 400);
   }
   
-  await c.env.MEDIA_BUCKET.put("bg.mp4", file.stream());
+  const ext = file.name.split('.').pop()?.toLowerCase() || 'mp4';
+  const filename = `bg.${ext}`;
   
-  return c.json({ success: true });
+  await c.env.MEDIA_BUCKET.put(filename, file.stream(), {
+    httpMetadata: {
+      contentType: file.type || "video/mp4"
+    }
+  });
+  
+  return c.json({ success: true, filename });
+});
+
+app.get("/api/bgvideo/current", async (c) => {
+  const extensions = ['mp4', 'webm', 'mov', 'avi'];
+  
+  for (const ext of extensions) {
+    const obj = await c.env.MEDIA_BUCKET.head(`bg.${ext}`);
+    if (obj) {
+      return c.json({ 
+        url: `/media/bg.${ext}`,
+        type: obj.httpMetadata?.contentType || `video/${ext}`
+      });
+    }
+  }
+  
+  return c.json({ url: '/media/bg.mp4', type: 'video/mp4' });
 });
 
 app.get("/media/:key", async (c) => {

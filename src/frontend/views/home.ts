@@ -13,10 +13,21 @@ export function renderHome() {
     video.playsInline = true;
     video.setAttribute('playsinline', '');
     video.setAttribute('webkit-playsinline', '');
-    const source = document.createElement('source');
-    source.src = '/media/bg.mp4';
-    source.type = 'video/mp4';
-    video.appendChild(source);
+    
+    fetch('/api/bgvideo/current')
+        .then(res => res.json())
+        .then(data => {
+            const source = document.createElement('source');
+            source.src = data.url || '/media/bg.mp4';
+            source.type = data.type || 'video/mp4';
+            video.appendChild(source);
+        })
+        .catch(() => {
+            const source = document.createElement('source');
+            source.src = '/media/bg.mp4';
+            source.type = 'video/mp4';
+            video.appendChild(source);
+        });
     
     video.addEventListener('loadeddata', () => {
         video.play().catch(() => {});
@@ -68,7 +79,20 @@ export function renderHome() {
 
     const body = document.createElement('p');
     body.className = 'body';
-    body.innerHTML = `single-origin cold brew meets hand-crafted 16mm film grain. we curate immersive visual experiences for brands who bicycle commute to farmer's markets. <a href="#portfolio">peep the aesthetic</a> before it was cool.`;
+    
+    fetch('/api/about')
+        .then(res => res.json())
+        .then(data => {
+            if (data && data.content) {
+                body.innerHTML = data.content;
+            } else {
+                body.innerHTML = `single-origin cold brew meets hand-crafted 16mm film grain. we curate immersive visual experiences for brands who bicycle commute to farmer's markets. <a href="#portfolio">peep the aesthetic</a> before it was cool.`;
+            }
+        })
+        .catch(() => {
+            body.innerHTML = `single-origin cold brew meets hand-crafted 16mm film grain. we curate immersive visual experiences for brands who bicycle commute to farmer's markets. <a href="#portfolio">peep the aesthetic</a> before it was cool.`;
+        });
+    
     overlay.appendChild(body);
 
     const nav = document.createElement('nav');
