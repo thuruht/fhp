@@ -48,7 +48,7 @@
 	z-index: 1;
 	color: #e8eef2FF;
 	text-align: center;
-	padding: 1rem 1rem 6rem;
+	padding: 1rem 1rem 100px;
 	text-shadow: 0 0 20px #221d22E6, 0 0 40px #221d22B3;
 	backdrop-filter: blur(2px);
 	max-width: 100%;
@@ -205,10 +205,11 @@ button:hover {
 	right: 0.75rem;
 	width: 50px;
 	height: 50px;
-	z-index: 100;
+	z-index: 200;
 	opacity: 0.7;
 	filter: drop-shadow(0 0 4px #221d22FF) drop-shadow(0 0 10px #d7560080);
 	animation: cinder-idle 4s ease-in-out infinite;
+	pointer-events: auto;
 }
 
 @keyframes cinder-idle {
@@ -220,9 +221,19 @@ button:hover {
 	position: fixed;
 	bottom: 0.75rem;
 	left: 0.75rem;
-	z-index: 100;
+	z-index: 200;
 	display: flex;
 	gap: 0.5rem;
+}
+
+.site-footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 80px;
+	z-index: 150;
+	pointer-events: none;
 }
 
 .control-btn {
@@ -391,7 +402,7 @@ button:hover {
 	}
 	
 	.overlay {
-		padding: 1rem 0.5rem 6rem;
+		padding: 1rem 0.5rem 100px;
 	}
 	
 	.body {

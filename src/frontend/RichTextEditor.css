@@ -36,11 +36,20 @@
   padding: 0.75rem;
   min-height: 150px;
   color: #e8eef2FF;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  background: #221d22CC;
 }
 
 .editor-content .ProseMirror {
   outline: none;
+  color: #e8eef2FF;
+}
+
+.editor-content .ql-editor {
+  color: #e8eef2FF;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
 .editor-content img {
@@ -52,6 +61,6 @@
   .editor-content {
     padding: 1rem;
     min-height: 200px;
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 }
