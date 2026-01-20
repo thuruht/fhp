@@ -64,6 +64,31 @@ icon.addEventListener('mouseleave', () => {
         });
 });
 
+// Social Footer
+const socialFooter = document.createElement('div');
+socialFooter.className = 'social-footer';
+container.appendChild(socialFooter);
+
+const instagramLink = document.createElement('a');
+instagramLink.href = 'https://www.instagram.com/flaming_heart_productions';
+instagramLink.target = '_blank';
+instagramLink.className = 'control-btn';
+instagramLink.title = 'Instagram';
+
+const instagramIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+instagramIcon.setAttribute('width', '20');
+instagramIcon.setAttribute('height', '20');
+instagramIcon.setAttribute('viewBox', '0 0 24 24');
+instagramIcon.setAttribute('fill', 'none');
+instagramIcon.setAttribute('stroke', 'currentColor');
+instagramIcon.setAttribute('stroke-width', '2');
+instagramIcon.setAttribute('stroke-linecap', 'round');
+instagramIcon.setAttribute('stroke-linejoin', 'round');
+instagramIcon.innerHTML = `<rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>`;
+
+instagramLink.appendChild(instagramIcon);
+socialFooter.appendChild(instagramLink);
+
 function render() {
     const state = getState();
     contentArea.innerHTML = '';
