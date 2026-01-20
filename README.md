@@ -1,90 +1,141 @@
-# React + Vite + Hono + Cloudflare Workers
+# Flaming Heart Productions TV (fhp)
+
+A modern web application built with **Vanilla JavaScript** (SPA), **Hono**, and **Cloudflare Workers**.
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/vite-react-template)
 
-This template provides a minimal setup for building a React application with TypeScript and Vite, designed to run on Cloudflare Workers. It features hot module replacement, ESLint integration, and the flexibility of Workers deployments.
+## 🚀 Tech Stack
 
-![React + TypeScript + Vite + Cloudflare Workers](https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/fc7b4b62-442b-4769-641b-ad4422d74300/public)
+- **Frontend:** Vanilla JavaScript (SPA), Vite
+- **Backend:** Hono (running on Cloudflare Workers)
+- **Database:** Cloudflare D1
+- **Storage:** Cloudflare R2
+- **Animations:** GSAP
+- **Rich Text Editor:** Quill
 
-<!-- dash-content-start -->
+## 🛠️ Prerequisites
 
-🚀 Supercharge your web development with this powerful stack:
+- **Node.js** (Latest LTS recommended)
+- **Wrangler** (Cloudflare Workers CLI)
 
-- [**React**](https://react.dev/) - A modern UI library for building interactive interfaces
-- [**Vite**](https://vite.dev/) - Lightning-fast build tooling and development server
-- [**Hono**](https://hono.dev/) - Ultralight, modern backend framework
-- [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) - Edge computing platform for global deployment
+## ⚙️ Setup & Configuration
 
-### ✨ Key Features
-
-- 🔥 Hot Module Replacement (HMR) for rapid development
-- 📦 TypeScript support out of the box
-- 🛠️ ESLint configuration included
-- ⚡ Zero-config deployment to Cloudflare's global network
-- 🎯 API routes with Hono's elegant routing
-- 🔄 Full-stack development setup
-- 🔎 Built-in Observability to monitor your Worker
-
-Get started in minutes with local development or deploy directly via the Cloudflare dashboard. Perfect for building modern, performant web applications at the edge.
-
-<!-- dash-content-end -->
-
-## Getting Started
-
-To start a new project with this template, run:
-
-```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/vite-react-template
-```
-
-A live deployment of this template is available at:
-[https://react-vite-template.templates.workers.dev](https://react-vite-template.templates.workers.dev)
-
-## Development
-
-Install dependencies:
+### 1. Install Dependencies
 
 ```bash
 npm install
 ```
 
-Start the development server with:
+### 2. Configure Cloudflare Resources
+
+This project relies on Cloudflare D1 for the database and R2 for media storage.
+
+**Create D1 Database:**
+
+```bash
+npx wrangler d1 create fhp-db
+```
+
+Update `wrangler.json` with the `database_id` output from the command above:
+
+```json
+"d1_databases": [
+  {
+    "binding": "DB",
+    "database_name": "fhp-db",
+    "database_id": "YOUR-DATABASE-ID-HERE"
+  }
+]
+```
+
+**Initialize Database Schema:**
+
+```bash
+# Local development
+npx wrangler d1 execute fhp-db --local --file=./schema.sql
+
+# Production
+npx wrangler d1 execute fhp-db --remote --file=./schema.sql
+```
+
+**Create R2 Bucket:**
+
+```bash
+npx wrangler r2 bucket create fhp-media
+```
+
+Ensure `wrangler.json` has the correct binding:
+
+```json
+"r2_buckets": [
+  {
+    "binding": "MEDIA_BUCKET",
+    "bucket_name": "fhp-media"
+  }
+]
+```
+
+### 3. Set Secrets
+
+You need to set the following secrets for authentication:
+
+```bash
+# Local development (if needed, usually handled via .dev.vars)
+# npx wrangler dev --test-scheduled
+
+# Production
+npx wrangler secret put ADMIN_PASSWORD
+npx wrangler secret put SESSION_SECRET
+```
+
+Generate a secure `SESSION_SECRET`:
+```bash
+openssl rand -hex 32
+```
+
+## 💻 Development
+
+Start the local development server:
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at [http://localhost:5173](http://localhost:5173).
+This will start Vite and the Hono backend. The application should be available at `http://localhost:5173`.
 
-## Production
+## 📦 Deployment
 
-Build your project for production:
+Build the application for production:
 
 ```bash
 npm run build
 ```
 
-Preview your build locally:
+Deploy to Cloudflare Workers:
 
 ```bash
-npm run preview
+npm run deploy
 ```
 
-Deploy your project to Cloudflare Workers:
+Or use the provided convenience script:
 
 ```bash
-npm run build && npm run deploy
+./deploy.sh
 ```
 
-Monitor your workers:
+## 🔐 Admin Features
+
+Navigate to `/admin` to access the content management system. Features include:
+
+- **Videos:** Upload videos with custom thumbnails.
+- **Stills:** Upload and manage image galleries.
+- **Announcements:** Create rich text posts with embedded images.
+- **About:** Edit the content of the About page.
+
+## 📄 Logs
+
+Monitor your deployed worker logs:
 
 ```bash
 npx wrangler tail
 ```
-
-## Additional Resources
-
-- [Cloudflare Workers Documentation](https://developers.cloudflare.com/workers/)
-- [Vite Documentation](https://vitejs.dev/guide/)
-- [React Documentation](https://reactjs.org/)
-- [Hono Documentation](https://hono.dev/)
