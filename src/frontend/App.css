@@ -226,6 +226,16 @@ button:hover {
 	gap: 0.5rem;
 }
 
+.social-footer {
+	position: fixed;
+	bottom: 0.75rem;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 200;
+	display: flex;
+	gap: 0.5rem;
+}
+
 .site-footer {
 	position: fixed;
 	bottom: 0;
